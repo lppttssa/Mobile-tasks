@@ -32,39 +32,44 @@ namespace Water
             var select_page = new SelectPage();
 
             select_page.Disappearing += (a, b) =>
-            {
-                bool isInBusket = false;
-
-                for (int i = 0; i < busket.Count; i++)
+            {   
+                if (SelectPage.is_clicked)
                 {
-                    if (busket[i].name == SelectPage.selectedItem)
-                    {
-                        liquid mem;
-                        mem.name = busket[i].name;
-                        mem.count = SelectPage.count + busket[i].count;
-                        busket[i] = mem;
-                        isInBusket = true;
-                        break;
-                    }
-                }
-                if (isInBusket)
-                {
-                    ClearGrid(grid);
+                    bool isInBusket = false;
 
                     for (int i = 0; i < busket.Count; i++)
                     {
-                        AddToGrid(Convert.ToString(busket[i].name), Convert.ToString(busket[i].count), i);
-                        pos++;
+                        if (busket[i].name == SelectPage.selectedItem)
+                        {
+                            liquid mem;
+                            mem.name = busket[i].name;
+                            mem.count = SelectPage.count + busket[i].count;
+                            busket[i] = mem;
+                            isInBusket = true;
+                            break;
+                        }
                     }
-                }
-                else
-                {
-                    liquid mem;
-                    mem.name = SelectPage.selectedItem;
-                    mem.count = SelectPage.count;
-                    busket.Add(mem);
-                    AddToGrid(Convert.ToString(SelectPage.selectedItem), Convert.ToString(SelectPage.count), pos);
-                    pos++;
+                    if (isInBusket)
+                    {
+                        ClearGrid(grid);
+
+                        for (int i = 0; i < busket.Count; i++)
+                        {
+                            AddToGrid(Convert.ToString(busket[i].name), Convert.ToString(busket[i].count), i);
+                            pos++;
+                        }
+                    }
+                    else
+                    {
+                        liquid mem;
+                        mem.name = SelectPage.selectedItem;
+                        mem.count = SelectPage.count;
+                        busket.Add(mem);
+                        AddToGrid(Convert.ToString(SelectPage.selectedItem), Convert.ToString(SelectPage.count), pos);
+                        pos++;
+
+
+                    }
                 }
             };
             Navigation.PushAsync(select_page); //запушим новую функцию

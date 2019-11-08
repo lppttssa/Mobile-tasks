@@ -15,6 +15,7 @@ namespace Water
         Label label;
         public static int count;
         public static object selectedItem;
+        public static bool is_clicked;
         public SelectPage()
         {
             InitializeComponent();
@@ -23,9 +24,9 @@ namespace Water
         public void Select(object sender, EventArgs e)
         {
             count = 0;
+            is_clicked = false;
             Picker picker = sender as Picker;
             selectedItem = picker.SelectedItem;
-
 
             switch (selectedItem)
             {
@@ -85,12 +86,16 @@ namespace Water
         void OnStepperValueChanged(object sender, ValueChangedEventArgs e)
         {
             label.Text = String.Format("{0}", e.NewValue);
-            count++;
+            count = Convert.ToInt32(e.NewValue);
         }
 
         void OnButtonClicked(object sender, System.EventArgs e)
         {
-            Navigation.PopAsync();
+            if (count > 0)
+            {
+                is_clicked = true;
+                Navigation.PopAsync();
+            }
         }
 
     }
