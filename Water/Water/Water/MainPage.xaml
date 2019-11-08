@@ -19,7 +19,11 @@
                 <ColumnDefinition Width="110" />
             </Grid.ColumnDefinitions>
         </Grid>
-        <Button AbsoluteLayout.LayoutBounds="0.2,0.98,-1,-1" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="Pink" Text="Заказать"></Button>
+        <Button AbsoluteLayout.LayoutBounds="0.2,0.98,-1,-1" 
+                AbsoluteLayout.LayoutFlags="PositionProportional" 
+                BackgroundColor="Pink" 
+                Text="Заказать"
+                Clicked="Button_Clicked_1"></Button>
         <Button AbsoluteLayout.LayoutBounds="0.8,0.98,-1,-1" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="Pink" Text="Добавить" Clicked="Button_Clicked"></Button>
     </AbsoluteLayout>
 

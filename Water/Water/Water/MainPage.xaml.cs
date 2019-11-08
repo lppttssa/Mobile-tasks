@@ -37,8 +37,7 @@ namespace Water
                 Label label = AddLabel(Convert.ToString(SelectPage.count));
                 bool isInBusket = false;
                 Image img = new Image();
-                img.HeightRequest = 80;
-                img.WidthRequest = 80;
+
                 for (int i = 0; i < busket.Count; i++)
                 {
                     if (busket[i].name == SelectPage.selectedItem)
@@ -52,30 +51,15 @@ namespace Water
                 }
                 if (isInBusket)
                 {
-                    foreach(var child in grid.Children.Reverse())
-                    {
-                        grid.Children.Remove(child);
-                        pos = 0;
-                    }
+                    grid = ClearGrid(grid);
 
                     for (int i = 0; i < busket.Count; i++)
                     {
                         Label l = AddLabel(Convert.ToString(busket[i].count));
                         Image im = new Image();
-                        im.HeightRequest = 80;
-                        im.WidthRequest = 80;
-                        switch (busket[i].name)
-                        {
-                            case "Вода":
-                                im.Source = "wata.jpg";
-                                break;
-                            case "Сок":
-                                im.Source = "j.jpg";
-                                break;
-                            case "Водка":
-                                im.Source = "v.jpg";
-                                break;
-                        }
+
+                        im.Source = ChooseImage(Convert.ToString(busket[i].name));
+
                         grid.Children.Add(im, 0, i);
                         grid.Children.Add(l, 1, i);
                         AddButton();
@@ -90,18 +74,8 @@ namespace Water
                     mem.count = SelectPage.count;
                     busket.Add(mem);
 
-                    switch (SelectPage.selectedItem)
-                    {
-                        case "Вода":
-                            img.Source = "wata.jpg";
-                            break;
-                        case "Сок":
-                            img.Source = "j.jpg";
-                            break;
-                        case "Водка":
-                            img.Source = "v.jpg";
-                            break;
-                    }
+                    img.Source = ChooseImage(Convert.ToString(SelectPage.selectedItem));
+                    
                     grid.Children.Add(img, 0, pos);
                     grid.Children.Add(label, 1, pos);
                     AddButton();
@@ -149,5 +123,43 @@ namespace Water
             return l;
         }
 
+        public string ChooseImage(string s)
+        {
+            switch (s)
+            {
+                case "Вода":
+                    return "wata.jpg";
+                    break;
+                case "Сок":
+                    return "j.jpg";
+                    break;
+                case "Водка":
+                    return "v.jpg";
+                    break;
+            }
+            return "a";
+        }
+
+        private async void Button_Clicked_1(object sender, EventArgs e)
+        {
+            if (busket.Count == 0)
+            {
+                await DisplayAlert("Уведомление", "Вы ничего не выбрали!", "Протити");
+            }
+            else
+            {
+                await DisplayAlert("Уведомление", "Ваш заказ принят в обработку!", "Пасиба дотвиданя");
+            }      
+        }
+
+        private Grid ClearGrid(Grid g)
+        {
+            foreach (var child in grid.Children.Reverse())
+            {
+                grid.Children.Remove(child);
+                pos = 0;
+            }
+            return grid;
+        }
     }
 }

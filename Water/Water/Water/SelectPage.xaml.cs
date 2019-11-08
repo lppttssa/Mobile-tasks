@@ -90,7 +90,6 @@ namespace Water
 
         void OnButtonClicked(object sender, System.EventArgs e)
         {
-
             Navigation.PopAsync();
         }
 
