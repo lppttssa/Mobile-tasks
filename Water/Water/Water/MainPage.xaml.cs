@@ -20,7 +20,6 @@ namespace Water
         }
 
         public static int pos = 0;
-
         List<liquid> busket = new List<liquid>();
 
         public MainPage()
@@ -34,9 +33,7 @@ namespace Water
 
             select_page.Disappearing += (a, b) =>
             {
-                Label label = AddLabel(Convert.ToString(SelectPage.count));
                 bool isInBusket = false;
-                Image img = new Image();
 
                 for (int i = 0; i < busket.Count; i++)
                 {
@@ -47,45 +44,45 @@ namespace Water
                         mem.count = SelectPage.count + busket[i].count;
                         busket[i] = mem;
                         isInBusket = true;
+                        break;
                     }
                 }
                 if (isInBusket)
                 {
-                    grid = ClearGrid(grid);
+                    ClearGrid(grid);
 
                     for (int i = 0; i < busket.Count; i++)
                     {
-                        Label l = AddLabel(Convert.ToString(busket[i].count));
-                        Image im = new Image();
-
-                        im.Source = ChooseImage(Convert.ToString(busket[i].name));
-
-                        grid.Children.Add(im, 0, i);
-                        grid.Children.Add(l, 1, i);
-                        AddButton();
+                        AddToGrid(Convert.ToString(busket[i].name), Convert.ToString(busket[i].count), i);
                         pos++;
                     }
                 }
-
-                if (!isInBusket)
+                else
                 {
                     liquid mem;
                     mem.name = SelectPage.selectedItem;
                     mem.count = SelectPage.count;
                     busket.Add(mem);
-
-                    img.Source = ChooseImage(Convert.ToString(SelectPage.selectedItem));
-                    
-                    grid.Children.Add(img, 0, pos);
-                    grid.Children.Add(label, 1, pos);
-                    AddButton();
+                    AddToGrid(Convert.ToString(SelectPage.selectedItem), Convert.ToString(SelectPage.count), pos);
                     pos++;
                 }
             };
             Navigation.PushAsync(select_page); //запушим новую функцию
         }
 
-        public void Delete(object sender, System.EventArgs e)
+        private void AddToGrid(string image, string lbl, int p)
+        {
+            Image img = new Image();
+            img.Source = ChooseImage(image);
+            grid.Children.Add(img, 0, p);
+
+            Label label = AddLabel(lbl);
+            grid.Children.Add(label, 1, p);
+
+            AddButton();
+        }
+
+        private void Delete(object sender, System.EventArgs e)
         {
             var button = (Button)sender;
             var row = Grid.GetRow(button);
@@ -102,7 +99,7 @@ namespace Water
             pos--;
         }
 
-        public void AddButton()
+        private void AddButton()
         {
             Button del = new Button();
             del.HeightRequest = 40;
@@ -113,7 +110,7 @@ namespace Water
             grid.Children.Add(del, 2, pos);
         }
 
-        public Label AddLabel(string s)
+        private Label AddLabel(string s)
         {
             Label l = new Label();
             l.Text = s;
@@ -123,19 +120,16 @@ namespace Water
             return l;
         }
 
-        public string ChooseImage(string s)
+        private string ChooseImage(string s)
         {
             switch (s)
             {
                 case "Вода":
                     return "wata.jpg";
-                    break;
                 case "Сок":
                     return "j.jpg";
-                    break;
                 case "Водка":
                     return "v.jpg";
-                    break;
             }
             return "a";
         }
@@ -149,17 +143,18 @@ namespace Water
             else
             {
                 await DisplayAlert("Уведомление", "Ваш заказ принят в обработку!", "Пасиба дотвиданя");
+                ClearGrid(grid);
+                busket.Clear();
             }      
         }
 
-        private Grid ClearGrid(Grid g)
+        private void ClearGrid(Grid g)
         {
             foreach (var child in grid.Children.Reverse())
             {
                 grid.Children.Remove(child);
-                pos = 0;
             }
-            return grid;
+            pos = 0;
         }
     }
 }
