@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+
+namespace Water
+{
+    // Learn more about making custom code visible in the Xamarin.Forms previewer
+    // by visiting https://aka.ms/xamarinforms-previewer
+    [DesignTimeVisible(false)]
+    public partial class MainPage : ContentPage
+    {
+        public static int pos = 0;
+        object[] arr = new object[3];
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            var select_page = new SelectPage();
+
+            select_page.Disappearing += (a, b) =>
+            {
+                Label label = new Label();
+                bool isInBusket = false;
+
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    if (arr[i] == SelectPage.selectedItem)
+                    {
+                        SelectPage.count += Convert.ToInt32(label.Text);
+                        label.Text = Convert.ToString(SelectPage.count);
+                        grid.Children.Add(label, 1, i);
+                        isInBusket = true;
+                    }
+                }
+
+                if (!isInBusket)
+                {
+                    Image img = new Image();
+                    arr[pos] = SelectPage.selectedItem;
+                    switch (SelectPage.selectedItem)
+                    {
+                        case "Вода":
+                            img.Source = "wata.jpg";
+                            break;
+                        case "Сок":
+                            img.Source = "j.jpg";
+                            break;
+                        case "Водка":
+                            img.Source = "v.jpg";
+                            break;
+                    }
+
+                    img.HeightRequest = 80;
+                    img.WidthRequest = 80;
+                    grid.Children.Add(img, 0, pos);
+                    label.Text = Convert.ToString(SelectPage.count);
+                    label.FontSize = 50;
+                    label.HorizontalTextAlignment = TextAlignment.Center;
+                    label.TextColor = Color.Pink;
+                    grid.Children.Add(label, 1, pos);
+                    /*Label label = new Label();
+                    label.Text += "w.jpg";
+                    label.BackgroundColor = Color.Pink;
+                    label.FontSize = 30;*/
+                    //stacklayout.Children.Add(label);
+                    pos++;
+                }
+            };
+            Navigation.PushAsync(select_page); //запушим новую функцию
+        }
+    }
+}
