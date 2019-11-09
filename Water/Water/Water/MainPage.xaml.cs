@@ -21,6 +21,8 @@ namespace Water
 
         public static int pos = 0;
         List<liquid> busket = new List<liquid>();
+        string text;
+        bool is_step;
 
         public MainPage()
         {
@@ -36,6 +38,7 @@ namespace Water
                 if (SelectPage.is_clicked)
                 {
                     bool isInBusket = false;
+                    is_step = false;
 
                     for (int i = 0; i < busket.Count; i++)
                     {
@@ -51,7 +54,7 @@ namespace Water
                     }
                     if (isInBusket)
                     {
-                        ClearGrid(grid);
+                        ClearGrid();
 
                         for (int i = 0; i < busket.Count; i++)
                         {
@@ -82,10 +85,54 @@ namespace Water
             grid.Children.Add(img, 0, p);
 
             Label label = AddLabel(lbl);
+
+            Stepper stepper = new Stepper
+            {
+                Value = Convert.ToInt32(lbl),
+                Minimum = 0,
+                Maximum = 20,
+                Increment = 1
+            };
+            stepper.ValueChanged += OnStepperValueChanged;
+
+            grid.Children.Add(stepper, 3, p);
+
             grid.Children.Add(label, 1, p);
 
             AddButton();
         }
+
+
+
+        private void ClearGrid()
+        {
+            foreach (var child in grid.Children.Reverse())
+            {
+                grid.Children.Remove(child);
+            }
+            pos = 0;
+        }
+
+        void OnStepperValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            var stepper = (Stepper)sender;
+            var row = Grid.GetRow(stepper);
+            liquid mem;
+            mem.name = busket[row].name;
+            mem.count = Convert.ToInt32(e.NewValue);
+            SelectPage.count = Convert.ToInt32(e.NewValue);
+            busket[row] = mem;
+
+            ClearGrid();
+
+            for (int i = 0; i < busket.Count; i++)
+            {
+                AddToGrid(Convert.ToString(busket[i].name), Convert.ToString(busket[i].count), i);
+                pos++;
+            }
+
+        }
+
 
         private void Delete(object sender, System.EventArgs e)
         {
@@ -125,6 +172,8 @@ namespace Water
             return l;
         }
 
+       
+
         private string ChooseImage(string s)
         {
             switch (s)
@@ -148,18 +197,10 @@ namespace Water
             else
             {
                 await DisplayAlert("Уведомление", "Ваш заказ принят в обработку!", "Пасиба дотвиданя");
-                ClearGrid(grid);
+                ClearGrid();
                 busket.Clear();
             }      
         }
 
-        private void ClearGrid(Grid g)
-        {
-            foreach (var child in grid.Children.Reverse())
-            {
-                grid.Children.Remove(child);
-            }
-            pos = 0;
-        }
     }
 }

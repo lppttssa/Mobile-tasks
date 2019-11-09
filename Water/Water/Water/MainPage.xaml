@@ -9,14 +9,15 @@
         <!-- Place new controls here -->
         <Grid x:Name="grid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60" />
+                <RowDefinition Height="60"/>
                 <RowDefinition Height="60" />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="130" />
-                <ColumnDefinition Width="130" />
-                <ColumnDefinition Width="110" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
         </Grid>
         <Button AbsoluteLayout.LayoutBounds="0.2,0.98,-1,-1" 
