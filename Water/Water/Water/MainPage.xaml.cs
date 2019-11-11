@@ -121,7 +121,14 @@ namespace Water
             mem.name = busket[row].name;
             mem.count = Convert.ToInt32(e.NewValue);
             SelectPage.count = Convert.ToInt32(e.NewValue);
-            busket[row] = mem;
+            if (mem.count == 0)
+            {
+                busket.RemoveAt(row);
+            }
+            else
+            {
+                busket[row] = mem;
+            }
 
             ClearGrid();
 
