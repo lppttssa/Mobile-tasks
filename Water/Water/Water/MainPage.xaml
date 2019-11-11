@@ -24,8 +24,14 @@
                 AbsoluteLayout.LayoutFlags="PositionProportional" 
                 BackgroundColor="Pink" 
                 Text="Заказать"
+                FontFamily="3952.ttf#Lobster-Regular"
                 Clicked="Button_Clicked_1"></Button>
-        <Button AbsoluteLayout.LayoutBounds="0.8,0.98,-1,-1" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="Pink" Text="Добавить" Clicked="Button_Clicked"></Button>
+        <Button AbsoluteLayout.LayoutBounds="0.8,0.98,-1,-1" 
+                AbsoluteLayout.LayoutFlags="PositionProportional" 
+                BackgroundColor="Pink" 
+                Text="Добавить" 
+                FontFamily="3952.ttf#Lobster-Regular"
+                Clicked="Button_Clicked"></Button>
     </AbsoluteLayout>
 
 </ContentPage>
